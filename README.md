@@ -5,6 +5,7 @@
 CreditBoost360 is a financial empowerment platform designed to help small businesses and individuals improve their creditworthiness through personalized insights, education, and actionable steps. This repository contains the source code, documentation, and resources for building and deploying the CreditBoost360 platform, providing users with tools to manage their finances effectively and boost their credit scores.
 
 🌟 Key Features
+
 Credit Monitoring: Real-time tracking of credit scores, credit reports, and financial activities. Users receive notifications and updates to stay informed about any changes that affect their credit.
 
 Gamification & Rewards: Engaging elements like points, badges, and progress levels to motivate users to take actions that improve their credit scores, such as paying bills on time or reducing debt.
@@ -26,6 +27,7 @@ Integration with Financial Institutions: Securely connects with banks, credit un
 Data Security & Privacy: CreditBoost360 employs advanced encryption and security protocols to ensure all user data is protected, adhering to best practices for handling sensitive financial information.
 
 🚀 Technologies Used
+
 Frontend: React.js, HTML5, CSS3, JavaScript
 Backend: Node.js, Express.js, Motoko
 Database: MongoDB / PostgreSQL
