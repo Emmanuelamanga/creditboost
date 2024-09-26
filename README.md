@@ -35,20 +35,35 @@ AI & ML Models: Python, scikit-learn, TensorFlow / PyTorch for personalized insi
 API Integration: Cohere API, OpenAI API for natural language processing
 Cloud & Deployment: AWS / Google Cloud Platform / Dfinity
 🔗 How to Get Started
+
 Clone the repository:
+
 bash
+
 Copy code
+
 git clone https://github.com/yourusername/creditboost360.git
+
 Install dependencies:
+
 bash
+
 Copy code
+
 cd creditboost360
+
 npm install
+
 Start the development server:
+
 bash
+
 Copy code
+
 npm start
+
 🤝 Contributing
+
 We welcome contributions! Please read our CONTRIBUTING.md for guidelines on how to get involved.
 
 📄 License
