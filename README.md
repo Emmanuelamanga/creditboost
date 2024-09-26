@@ -28,12 +28,17 @@ Data Security & Privacy: CreditBoost360 employs advanced encryption and security
 
 🚀 Technologies Used
 
-Frontend: React.js, HTML5, CSS3, JavaScript
-Backend: Node.js, Express.js, Motoko
-Database: MongoDB / PostgreSQL
+Frontend: Next.js, HTML5, CSS3, JavaScript
+
+Backend: Django
+
+Database:
+
 AI & ML Models: Python, scikit-learn, TensorFlow / PyTorch for personalized insights and recommendations
-API Integration: Cohere API, OpenAI API for natural language processing
-Cloud & Deployment: AWS / Google Cloud Platform / Dfinity
+
+API Integration:
+
+Cloud & Deployment:Google Cloud Platform
 🔗 How to Get Started
 
 Clone the repository:
