@@ -1,7 +1,8 @@
-# creditboost360
+# CreditBoost360
 
 
 📈 CreditBoost360
+
 CreditBoost360 is a financial empowerment platform designed to help small businesses and individuals improve their creditworthiness through personalized insights, education, and actionable steps. This repository contains the source code, documentation, and resources for building and deploying the CreditBoost360 platform, providing users with tools to manage their finances effectively and boost their credit scores.
 
 🌟 Key Features
