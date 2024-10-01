@@ -1,6 +1,5 @@
 # CreditBoost360
 
-
 📈 CreditBoost360
 
 CreditBoost360 is a financial empowerment platform designed to help small businesses and individuals improve their creditworthiness through personalized insights, education, and actionable steps. This repository contains the source code, documentation, and resources for building and deploying the CreditBoost360 platform, providing users with tools to manage their finances effectively and boost their credit scores.
@@ -27,50 +26,134 @@ Integration with Financial Institutions: Securely connects with banks, credit un
 
 Data Security & Privacy: CreditBoost360 employs advanced encryption and security protocols to ensure all user data is protected, adhering to best practices for handling sensitive financial information.
 
-🚀 Technologies Used
+## Overview
 
-Frontend: Next.js, HTML5, CSS3, JavaScript
+This AI powered platforms revolutionizes credit scoring with a **React Vite** frontend and a **Django** backend. The app follows a structured development workflow with three branches: `dev`, `main`, and `production`.
 
-Backend: Django
+## Project Structure
 
-Database:
+- **Frontend**: React with Vite for fast development.
+- **Backend**: Django for handling server-side logic.
 
-AI & ML Models: Python, scikit-learn, TensorFlow / PyTorch for personalized insights and recommendations
+## Branch Workflow
 
-API Integration:
+- **dev branch**: All developers push their changes here.
+- **main branch**: Code is reviewed by another team member and merged from `dev` to `main`.
+- **production branch**: The team lead reviews code from the `main` branch and pushes it to `production`.
 
-Cloud & Deployment:Google Cloud Platform
-🔗 How to Get Started
+## Installation
 
-Clone the repository:
+### Prerequisites
 
-bash
+Ensure that the following are installed on your local machine:
 
-Copy code
+- Node.js (v20 or later)
+- Python (v3.8 or later)
+- Git
+- PostgreSQL/MySQL (or your preferred database) Note the backend uses the default db.mysql
 
-git clone https://github.com/yourusername/creditboost360.git
+### Backend (Django)
 
-Install dependencies:
+1. Clone the repository - PAT is your personal access token for github:
 
-bash
+   ```bash
+   git clone https://{PAT}@github.com/CreditBoost360/CreditBoost.git
+   ```
 
-Copy code
+2. Navigate to the server directory:
 
-cd creditboost360
+   ```bash
+   cd server
+   ```
 
-npm install
+3. Set up a virtual environment and activate it:
 
-Start the development server:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # For Windows: venv\Scripts\activate
+   ```
 
-bash
+4. Install backend dependencies:
 
-Copy code
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-npm start
+5. Navigate to backend repository:
 
-🤝 Contributing
+   ```bash
+   cd backend
+   ```
 
-We welcome contributions! Please read our CONTRIBUTING.md for guidelines on how to get involved.
+6. Create a `.env` file based on `.env.example` and update your database and other environment variables:
 
-📄 License
-This project is licensed under the MIT License – see the LICENSE file for details.
+   ```bash
+   cp .env.example .env
+   ```
+
+7. Run database migrations:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+8. Start the Django server:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+### Frontend (React Vite)
+
+1. Navigate to the frontend directory:
+
+   ```bash
+   cd frontEnd
+   ```
+
+2. Install frontend dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the Vite development server:
+
+   ```bash
+   npm run dev
+   ```
+
+## Running the Project
+
+- Run the Django backend server and the Vite frontend server simultaneously.
+- The backend will run on `http://localhost:8000`, and the frontend will run on `http://localhost:5173`.
+
+## Deployment
+
+### Backend
+
+1. Set up your production environment and make sure all environment variables in `.env` are updated.
+
+2. Migrate the database:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+3. Collect static files:
+
+   ```bash
+   python manage.py collectstatic
+   ```
+
+4. Use a production server like `gunicorn` or `uwsgi` to serve the Django backend.
+
+### Frontend
+
+1. Build the frontend for production:
+
+   ```bash
+   npm run build
+   ```
+
+2. Serve the built files using a web server like Nginx or Apache.
