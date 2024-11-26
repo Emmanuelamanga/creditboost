@@ -8,6 +8,7 @@ import { FaRobot } from 'react-icons/fa6';
 import { HiAcademicCap } from 'react-icons/hi';
 import { BiCreditCard } from 'react-icons/bi';
 import { BsCreditCard2FrontFill } from 'react-icons/bs';
+import AuthenticatedLayout from './Layouts/AuthenticatedLayout';
 
 const AddProductPage = () => {
     //initialize navigation and cookies
@@ -30,21 +31,17 @@ const AddProductPage = () => {
 
 
     return (
-        <div className="flex flex-row  bg-[#f6f6f6] max-h-screen">
-            <Sidebar isOpen={true} Menus={Menus} />
+        <AuthenticatedLayout>
             <main className="flex-1 px-4 overflow-y-auto">
-                <Navbar />
                 <div className="container mx-auto">
                     <div className="flex flex-col gap-8 py-4 mt-4 min-h-[86vh] ">
                         <div>
-
-                        </div>
-                        
+                        </div>                      
                         
                     </div>
                 </div>
             </main>
-        </div>
+        </AuthenticatedLayout>
     );
 };
 

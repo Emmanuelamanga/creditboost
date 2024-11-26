@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-//import ClientDashboard from './pages/Client/ClientDashboard'
 import Home from './pages/Home'
 import LoginPage from './pages/Login'
 import './App.css'
@@ -11,23 +10,28 @@ import VerifyEmail from './pages/EmailVerify'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import GoogleAuth from './pages/GoogleAuth'
-import AcademyHome from './pages/Academy/AcademyHome'
-import ScoringPage from './pages/Score'
-
-//special chat
-//import GenerateLinkPage from './pages/supplier/GenerateSpecialChat'
-//import SpecialChat from './pages/supplier/SpecialChat'
+import Communities from './pages/Communities'
+import CommunityPage from './pages/CommunityPage'
+import CreditScore from './pages/CreditScore'
+import UploadData from './pages/UploadData'
+import PrivateRoute from './middleware/PrivateRoute'
+import Learn from './pages/Academy/Learn'
+import Quiz from './pages/Academy/Quiz'
+import TopicQuizzes from './pages/Academy/TopicQuizzes'
+import AccountSetting from './pages/AccountSetting'
+import TopProgressBar from './components/Common/TopProgressBar'
+import Games from './pages/Games'
+import DataTalk from './pages/DataTalk'
+import TransactionDashboard from './pages/TransactionDashboard'
 
 function App() {
-  //const [count, setCount] = useState(0)
-
   return (
-    <div className='text-sm  '>
-      <div className=''>
+    <div className='text-sm'>
+      <div>
         <Router>
           <AppProvider>
+            {/* <TopProgressBar /> */}
             <Routes>
-              
               <Route path='/' element={<LandingPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/auth/google' element={<GoogleAuth />} />
@@ -36,25 +40,30 @@ function App() {
               <Route path='/forgot-password' element={<ForgotPassword />} />
               <Route path="/password-reset/:uid/:token" element={<ResetPassword />} />
 
-              {/* protected routes */}
-              {/* <Route element={<PrivateRoute />}> */}
-              
-              <Route path='/home' element={<Home />} />
-              <Route path='/score' element={<ScoringPage />} />
-              <Route path='/academy' element={<AcademyHome />} />
+              <Route element={<PrivateRoute />}>
+                <Route path='/dashboard' element={<Home />} />
+                <Route path='/credit-score' element={<CreditScore />} />
+                <Route path='/credit-score/upload-data' element={<UploadData />} />
+                <Route path='/credit-score/transactions/:uploadId?' element={<TransactionDashboard />} />
+                <Route path='/learn' element={<Learn />} />
+                <Route path='/data-talk' element={<DataTalk />} />
+                <Route path='/learn/topics/:topicId/quizzes' element={<TopicQuizzes />} />
+                <Route path='/learn/topics/quiz/:quizId' element={<Quiz />} />
 
-              
-              
+                <Route path='/games' element={<Games/>} />
 
-              {/* </Route> */}
+                <Route path='/communities' element={<Communities />} />
+                <Route path='/communities/:id' element={<CommunityPage />} />
 
+                <Route path='/account-settings' element={<AccountSetting />} />
+              </Route>
             </Routes>
           </AppProvider>
         </Router>
       </div>
-
     </div>
   )
 }
+
 
 export default App

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Container from "./Container";
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logos/logo-no-bg.png'
 
 const links = [
     {
@@ -12,12 +13,16 @@ const links = [
         label: "Solution",
     },
     {
-        to: "/#reviews",
-        label: "Reviews",
+        to: "/#how-to",
+        label: "How To",
+    },
+    {
+        to: "/#contact",
+        label: "Contact Us",
     },
 ];
 
-export default function Header() {
+export default function Navbar() {
     const [isToggled, setIsToggled] = useState(false);
 
     useEffect(() => {
@@ -51,25 +56,36 @@ export default function Header() {
         setIsToggled(!isToggled);
     };
 
+    const handleSmoothScroll = (e) => {
+        const link = e.currentTarget;
+        if (link.hash) {
+            e.preventDefault();
+            const targetId = link.hash.slice(1);
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                // Update URL without scroll
+                window.history.pushState({}, '', link.hash);
+            }
+            // Close mobile menu if open
+            setIsToggled(false);
+        }
+    };
+
     return (
         <header className="">
-            <nav className="absolute z-10 w-full border-b border-black/5 dark:border-white/5 
-            lg:border-transparent">
+            <nav className="absolute z-10 w-full border-b border-black/5 dark:border-white/5 lg:border-transparent">
                 <Container>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4">
                         <div className="relative z-20 flex w-full justify-between md:px-0 lg:w-max">
-                            <a href="/#home" aria-label="logo" className="flex items-center space-x-2">
-                                <div aria-hidden="true" className="flex space-x-1">
-                                    <div className="h-8 w-8 rounded-full flex items-center justify-center bg-gray-900 dark:bg-white">
-                                        <div className="flex flex-row gap-1">
-                                            {/* <div className="h-2 w-2 rounded-full dark:bg-gray-900 bg-white"></div>
-                                            <div className="h-2 w-2 rounded-full dark:bg-gray-900 bg-white"></div> */}
-                                        </div>
-                                    </div>
-                                    <div className="h-6 w-2 bg-primary"></div>
-                                </div>
-                                <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                                CreditBoost
+                            <a href="/#home" aria-label="logo" className="flex items-center space-x-2" onClick={handleSmoothScroll}>
+                                <img src={logo} alt="Company Logo" />
+                                <span>
+                                    <span className="font-brand text-brand-credit">CREDIT</span>
+                                    <span className="font-brand text-brand-boost text-primary">BOOST</span>
                                 </span>
                             </a>
 
@@ -86,21 +102,21 @@ export default function Header() {
                                 <ul className="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm">
                                     {links.map((link, index) => (
                                         <li key={index}>
-                                            <a href={link.to} className="hover:text-primary block transition dark:hover:text-white md:px-4">
+                                            <a href={link.to} className="hover:text-primary block transition dark:hover:text-white md:px-4" onClick={handleSmoothScroll}>
                                                 <span>{link.label}</span>
                                             </a>
                                         </li>
                                     ))}
                                     <li>
-                                        <Link to="/login"  className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4">
-                                           <p>Sign In</p>
+                                        <Link to="/login" className="flex gap-2 font-semibold text-gray-700 transition hover:text-primary dark:text-white dark:hover:text-white md:px-4">
+                                            <p>Sign In</p>
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
                             <div className="mt-12 lg:mt-0">
-                                <Link to="/signup" className="relative rounded-full bg-sky-400  flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
-                                    <span className="relative  text-sm font-semibold text-white">Get Started</span>
+                                <Link to="/signup" className="relative rounded-full bg-sky-400 flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max">
+                                    <span className="relative text-sm font-semibold text-white">Get Started</span>
                                 </Link>
                             </div>
                         </div>

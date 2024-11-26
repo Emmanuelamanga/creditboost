@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */ 
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{js,jsx,ts,tsx}',
     './app/**/*.{js,jsx,ts,tsx}',
     './src/**/*.{js,jsx,ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -17,60 +17,48 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#02A669",
+          light: "#05B19B",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#0177A5",
+          light: "#12AACF",
         },
+        background: "#F6F8F6",
+        foreground: "#000000",
+        border: "#E2E8F0",
+        input: "#E2E8F0",
+        ring: "#02A669",
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#EF4444",
+          foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#F1F5F9",
+          foreground: "#64748B",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#05B19B",
+          foreground: "#FFFFFF",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "#FFFFFF",
+          foreground: "#000000",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "#FFFFFF",
+          foreground: "#000000",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontFamily: {
+        brand: ["'Montserrat'", 'sans-serif'],
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      fontSize: {
+        'brand-credit': ['2rem', { letterSpacing: '0.01em', fontWeight: '900' }],
+        'brand-boost': ['2rem', { letterSpacing: '0.01em', fontWeight: '700', color: '#02A669' }],
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

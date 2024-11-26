@@ -1,36 +1,44 @@
-import React, { useContext } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
-import api from '../api/privateInstance';
+import React, { useEffect, useContext, useState } from 'react';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { authService } from '@/services/auth.service';
+import { AppContext } from '@/context/AppContext';
 
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated,setIsAuthenticated } = useContext(AppContext);
+const PrivateRoute = () => {
+  const { isAuthenticated } = useContext(AppContext);
+  const [isVerifying, setIsVerifying] = useState(true);
+  const navigate = useNavigate();
 
-  const verifyUserSession = async () => {
-    const response = await api.post('jwt/verify/');
-    return response.data;
-  };
-
-  //check authentication
   useEffect(() => {
-    const checkAuth = async () => {
+    if (!isAuthenticated && !authService.getToken()) {
+      navigate('/login', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    const verify = async () => {
       try {
-        await verifyUserSession();
-        setIsAuthenticated(true);
+        await authService.verifyToken();
+        setIsVerifying(false);
       } catch {
-        setIsAuthenticated(false);
+        setIsVerifying(false);
       }
     };
 
-    checkAuth();
+    if (authService.getToken()) {
+      verify();
+    } else {
+      setIsVerifying(false);
+    }
   }, []);
 
-  if (!isAuthenticated) {
-    
-    return <Navigate to="/login" replace />;
+  if (isVerifying) {
+    return (<div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>);
   }
 
-  return children ? children : <Outlet />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
+
 
 export default PrivateRoute;
