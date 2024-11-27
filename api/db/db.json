@@ -167,6 +167,22 @@
       "phone": null,
       "password": "$2b$10$AJ5SbGttvHtvdJPC05Vexe4arIf01xPueDTJaEy4Aw6pvng724N7K",
       "createdAt": "2024-11-27T07:23:04.337Z"
+    },
+    {
+      "id": "1732726740185",
+      "name": "Nostrud pariatur Et",
+      "email": "dakuqyne@mailinator.com",
+      "phone": null,
+      "password": "$2b$10$OHJMxB.99SjdePTFh7yVAOe0S.V9pK0D1m.Vv6NbjNhT0IzW9tjdG",
+      "createdAt": "2024-11-27T16:59:00.185Z"
+    },
+    {
+      "id": "1732727424355",
+      "name": "Emmanuel",
+      "email": "test@admin.com",
+      "phone": null,
+      "password": "$2b$10$Yc7u3nE2gKCD1SJG6ejjCOY1LnkPBkr0qZ6hOpwxH5NFhcEx54PI6",
+      "createdAt": "2024-11-27T17:10:24.355Z"
     }
   ],
   "communities": [
