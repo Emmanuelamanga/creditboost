@@ -159,6 +159,14 @@
       "phone": null,
       "password": "$2b$10$sXoy/Z18.GcAbwYMwQuGC.ip4IhKDHxFDtn60Vj0OuZ2xGaPKRrJy",
       "createdAt": "2024-11-26T11:24:13.808Z"
+    },
+    {
+      "id": "1732692184337",
+      "name": "Exercitation nulla c",
+      "email": "bykonola@mailinator.com",
+      "phone": null,
+      "password": "$2b$10$AJ5SbGttvHtvdJPC05Vexe4arIf01xPueDTJaEy4Aw6pvng724N7K",
+      "createdAt": "2024-11-27T07:23:04.337Z"
     }
   ],
   "communities": [
