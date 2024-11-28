@@ -19,10 +19,11 @@ import Learn from './pages/Academy/Learn'
 import Quiz from './pages/Academy/Quiz'
 import TopicQuizzes from './pages/Academy/TopicQuizzes'
 import AccountSetting from './pages/AccountSetting'
-import TopProgressBar from './components/Common/TopProgressBar'
 import Games from './pages/Games'
-import DataTalk from './pages/DataTalk'
 import TransactionDashboard from './pages/TransactionDashboard'
+import CreditDataView from './pages/CreditDataView'
+import DataChatInterface from './pages/DataCahtInterface'
+import MicroFinance from './pages/MicroFinance/MicroFinance'
 
 function App() {
   return (
@@ -46,13 +47,19 @@ function App() {
                 <Route path='/credit-score/upload-data' element={<UploadData />} />
                 <Route path='/credit-score/transactions/:uploadId?' element={<TransactionDashboard />} />
                 <Route path='/learn' element={<Learn />} />
-                <Route path='/data-talk' element={<DataTalk />} />
+                <Route path='/data-talk' element={<DataChatInterface />} />
+
+                <Route path='/micro-finance' element={<MicroFinance />} />
+
                 <Route path='/learn/topics/:topicId/quizzes' element={<TopicQuizzes />} />
                 <Route path='/learn/topics/quiz/:quizId' element={<Quiz />} />
 
-                <Route path='/games' element={<Games/>} />
+                <Route path='/games' element={<Games />} />
 
                 <Route path='/communities' element={<Communities />} />
+
+                <Route path='/credit-data-view' element={<CreditDataView />} />
+
                 <Route path='/communities/:id' element={<CommunityPage />} />
 
                 <Route path='/account-settings' element={<AccountSetting />} />

@@ -1010,7 +1010,183 @@
         "uploadedAt": "2024-11-26T11:21:45.066Z",
         "fileSize": 341224
       }
+    },
+    {
+      "id": "1732820555381",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "fileName": "mpesa.csv",
+      "fileSize": 341224,
+      "filePath": "/home/devcoder/projects/CreditBoost/api/uploads/file-1732820555364-597715623.csv",
+      "uploadedAt": "2024-11-28T19:02:35.381Z",
+      "status": "completed",
+      "processingStep": "complete",
+      "error": null,
+      "data": {
+        "fileName": "mpesa.csv",
+        "uploadedAt": "2024-11-28T19:02:35.381Z",
+        "fileSize": 341224
+      }
+    },
+    {
+      "id": "1732820686400",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "fileName": "mpesa.csv",
+      "fileSize": 341224,
+      "filePath": "/home/devcoder/projects/CreditBoost/api/uploads/file-1732820686387-856619878.csv",
+      "uploadedAt": "2024-11-28T19:04:46.400Z",
+      "status": "completed",
+      "processingStep": "complete",
+      "error": null,
+      "data": {
+        "fileName": "mpesa.csv",
+        "uploadedAt": "2024-11-28T19:04:46.400Z",
+        "fileSize": 341224
+      }
     }
   ],
-  "mpesaTransactions": []
+  "mpesaTransactions": [],
+  "chatHistories": [
+    {
+      "id": "1732826800072",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Chat 11/28/2024",
+      "uploadIds": [
+        "1732820686400"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "Try find something legit ",
+          "sender": "user",
+          "timestamp": "2024-11-28T20:46:39.914Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 3635 transactions from 1 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T20:46:40.058Z"
+        }
+      ],
+      "createdAt": "2024-11-28T20:46:40.072Z",
+      "shareToken": "m9ipy6e4n1"
+    },
+    {
+      "id": "1732827338763",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Chat 11/28/2024",
+      "uploadIds": [
+        "1732820555381",
+        "1732820686400"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "how;s today ",
+          "sender": "user",
+          "timestamp": "2024-11-28T20:55:38.416Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T20:55:38.738Z"
+        }
+      ],
+      "createdAt": "2024-11-28T20:55:38.763Z",
+      "shareToken": "3f9fqwflxrk"
+    },
+    {
+      "id": "1732827346186",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Chat 11/28/2024",
+      "uploadIds": [
+        "1732820555381",
+        "1732820686400"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "how;s today ",
+          "sender": "user",
+          "timestamp": "2024-11-28T20:55:38.416Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T20:55:38.738Z"
+        },
+        {
+          "id": 3,
+          "text": "Is tehre a remedy ",
+          "sender": "user",
+          "timestamp": "2024-11-28T20:55:45.779Z"
+        },
+        {
+          "id": 4,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T20:55:46.166Z"
+        }
+      ],
+      "createdAt": "2024-11-28T20:55:46.186Z",
+      "shareToken": "0ivqulku7r0a"
+    },
+    {
+      "id": "1732827901555",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Money laundry",
+      "uploadIds": [
+        "1732820686400"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "Balance sheet Problems",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:05:01.367Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 3635 transactions from 1 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:05:01.542Z"
+        }
+      ],
+      "createdAt": "2024-11-28T21:05:01.555Z",
+      "shareToken": null
+    },
+    {
+      "id": "1732827991070",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "management meeting",
+      "uploadIds": [
+        "1732820686400",
+        "1732820555381"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "this has been actioned ",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:06:30.779Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:06:31.056Z"
+        }
+      ],
+      "createdAt": "2024-11-28T21:06:31.070Z",
+      "shareToken": "l4q02dz0olg"
+    }
+  ]
 }

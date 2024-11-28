@@ -14,7 +14,9 @@ const AuthenticatedLayout = ({ children }) => {
     const menuItems = [
         { title: "Dashboard", icon: "mdi:view-grid", path: "/dashboard" },
         { title: "Credit Score", icon: "mdi:credit-card", path: "/credit-score" },
+        { title: "Transaction Management", icon: "mdi:finance", path: "/credit-data-view" },
         { title: "Data Talk", icon: "mdi:database", path: "/data-talk" },
+        { title: "Micro Finance", icon: "arcticons:finance-manager", path: "/micro-finance" },
         { title: "Learn", icon: "mdi:school", path: "/learn" },
         { title: "Games", icon: "mdi:gamepad-circle-down", path: "/games" },
         { title: "Communities", icon: "mdi:account-group", path: "/communities" },

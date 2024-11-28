@@ -1,6 +1,103 @@
 import { apiConfig, getApiUrl } from "@/config/api.config";
 
 export const creditDataService = {
+  getCreditData: async ({
+    source = "all",
+    status = "all",
+    sortBy = "uploadedAt",
+    sortOrder = "desc",
+    page = 1,
+    limit = 10,
+  } = {}) => {
+    try {
+      const queryParams = new URLSearchParams();
+
+      // Only add parameters if they have values
+      queryParams.append("page", String(page));
+      queryParams.append("limit", String(limit));
+      queryParams.append("sortBy", sortBy);
+      queryParams.append("sortOrder", sortOrder);
+
+      if (source !== "all") {
+        queryParams.append("source", source);
+      }
+      if (status !== "all") {
+        queryParams.append("status", status);
+      }
+
+      const response = await fetch(
+        getApiUrl(`/credit-data?${queryParams.toString()}`),
+        {
+          method: "GET",
+          headers: apiConfig.getHeaders(true),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(data.error || "Failed to fetch credit data");
+        error.status = response.status;
+        error.details = data.details || [];
+        throw error;
+      }
+
+      return {
+        creditData: data.creditData || [],
+        pagination: data.pagination,
+      };
+    } catch (error) {
+      console.error("Error fetching credit data:", error);
+      throw error;
+    }
+  },
+
+  getCreditDataById: async (id) => {
+    try {
+      const response = await fetch(getApiUrl(`/credit-data/${id}`), {
+        method: "GET",
+        headers: apiConfig.getHeaders(true),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(data.error || "Failed to fetch credit data");
+        error.status = response.status;
+        error.details = data.details || [];
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching credit data:", error);
+      throw error;
+    }
+  },
+
+  getCreditDataStats: async () => {
+    try {
+      const response = await fetch(getApiUrl("/credit-data/stats"), {
+        method: "GET",
+        headers: apiConfig.getHeaders(true),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(data.error || "Failed to fetch statistics");
+        error.status = response.status;
+        error.details = data.details || [];
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching credit data statistics:", error);
+      throw error;
+    }
+  },
+
   uploadData: async (file, source) => {
     console.log("Starting upload:", { fileName: file.name, source });
     try {
@@ -34,6 +131,29 @@ export const creditDataService = {
       console.error("Upload error:", error);
       error.status = error.status || 500;
       error.details = error.details || [];
+      throw error;
+    }
+  },
+
+  deleteCreditData: async (id) => {
+    try {
+      const response = await fetch(getApiUrl(`/credit-data/${id}`), {
+        method: "DELETE",
+        headers: apiConfig.getHeaders(true),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const error = new Error(data.error || "Failed to delete credit data");
+        error.status = response.status;
+        error.details = data.details || [];
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error deleting credit data:", error);
       throw error;
     }
   },
