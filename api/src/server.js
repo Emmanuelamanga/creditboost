@@ -953,6 +953,172 @@ async function getUploadFilePath(uploadId, userId) {
   }
 }
 
+// get all transactions
+// Helper function to validate date format
+const isValidDate = (dateString) => {
+  const date = new Date(dateString);
+  return date instanceof Date && !isNaN(date);
+};
+
+// Helper function to apply filters to transactions
+const applyFilters = (transactions, filters) => {
+  return transactions.filter((transaction) => {
+    let matches = true;
+
+    if (filters.startDate && filters.endDate) {
+      const transactionDate = new Date(transaction.completionTime);
+      const startDate = new Date(filters.startDate);
+      const endDate = new Date(filters.endDate);
+      matches =
+        matches && transactionDate >= startDate && transactionDate <= endDate;
+    }
+
+    if (filters.category) {
+      matches = matches && transaction.category === filters.category;
+    }
+
+    if (filters.minAmount) {
+      const amount = Math.max(transaction.paidIn, transaction.withdrawn);
+      matches = matches && amount >= filters.minAmount;
+    }
+
+    if (filters.maxAmount) {
+      const amount = Math.max(transaction.paidIn, transaction.withdrawn);
+      matches = matches && amount <= filters.maxAmount;
+    }
+
+    if (filters.transactionType) {
+      if (filters.transactionType === "credit") {
+        matches = matches && transaction.paidIn > 0;
+      } else if (filters.transactionType === "debit") {
+        matches = matches && transaction.withdrawn > 0;
+      }
+    }
+
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      matches =
+        matches &&
+        (transaction.details.toLowerCase().includes(searchLower) ||
+          transaction.partyInfo.name.toLowerCase().includes(searchLower) ||
+          transaction.partyInfo.phoneNumber.includes(filters.search));
+    }
+
+    return matches;
+  });
+};
+
+// Main transactions endpoint TODO: remove
+app.get("/api/transactions", authenticateToken, async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      startDate,
+      endDate,
+      category,
+      minAmount,
+      maxAmount,
+      transactionType,
+      search,
+      sortBy = "completionTime",
+      sortOrder = "desc",
+      uploadId,
+    } = req.query;
+
+    // Validate date formats if provided
+    if (
+      (startDate && !isValidDate(startDate)) ||
+      (endDate && !isValidDate(endDate))
+    ) {
+      return res.status(400).json({
+        error: "Invalid date format. Please use ISO 8601 format (YYYY-MM-DD)",
+      });
+    }
+
+    // Validate numerical parameters
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const minAmountNum = minAmount ? parseFloat(minAmount) : undefined;
+    const maxAmountNum = maxAmount ? parseFloat(maxAmount) : undefined;
+
+    if (isNaN(pageNum) || isNaN(limitNum) || pageNum < 1 || limitNum < 1) {
+      return res.status(400).json({
+        error: "Invalid pagination parameters",
+      });
+    }
+
+    // Get the file path for the upload
+    const filePath = await getUploadFilePath(uploadId, req.userId);
+
+    // Read and parse the CSV file
+    const rawData = await readMpesaCSV(filePath);
+    let transactions = processTransactions(rawData);
+
+    // Apply filters
+    transactions = applyFilters(transactions, {
+      startDate,
+      endDate,
+      category,
+      minAmount: minAmountNum,
+      maxAmount: maxAmountNum,
+      transactionType,
+      search,
+    });
+
+    // Sort transactions
+    transactions.sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case "amount":
+          const aAmount = Math.max(a.paidIn, a.withdrawn);
+          const bAmount = Math.max(b.paidIn, b.withdrawn);
+          comparison = aAmount - bAmount;
+          break;
+        case "completionTime":
+        default:
+          comparison = new Date(a.completionTime) - new Date(b.completionTime);
+      }
+      return sortOrder === "desc" ? -comparison : comparison;
+    });
+
+    // Calculate pagination
+    const totalRecords = transactions.length;
+    const totalPages = Math.ceil(totalRecords / limitNum);
+    const startIndex = (pageNum - 1) * limitNum;
+    const paginatedTransactions = transactions.slice(
+      startIndex,
+      startIndex + limitNum
+    );
+
+    res.json({
+      transactions: paginatedTransactions,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalRecords,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1,
+      },
+      filters: {
+        startDate,
+        endDate,
+        category,
+        minAmount: minAmountNum,
+        maxAmount: maxAmountNum,
+        transactionType,
+        search,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    res.status(500).json({
+      error: "Failed to fetch transactions",
+      message: error.message || "An unexpected error occurred",
+    });
+  }
+});
+
 // Updated transactions endpoint
 app.get(
   "/api/mpesa-transactions/:uploadId",
@@ -1137,6 +1303,85 @@ app.post(
     }
   }
 );
+// Get credit data statistics
+app.get("/api/credit-data/stats", authenticateToken, async (req, res) => {
+  try {
+    const db = await readDB();
+    const userCreditData =
+      db.creditData?.filter((cd) => cd.userId === req.userId) || [];
+
+    const stats = {
+      totalUploads: userCreditData.length,
+      bySource: {},
+      byStatus: {},
+      latestUpload: null,
+      totalStorageUsed: 0,
+    };
+
+    userCreditData.forEach((cd) => {
+      // Count by source
+      stats.bySource[cd.source] = (stats.bySource[cd.source] || 0) + 1;
+
+      // Count by status
+      stats.byStatus[cd.status] = (stats.byStatus[cd.status] || 0) + 1;
+
+      // Calculate total storage
+      stats.totalStorageUsed += cd.fileSize || 0;
+
+      // Track latest upload
+      if (
+        !stats.latestUpload ||
+        new Date(cd.uploadedAt) > new Date(stats.latestUpload)
+      ) {
+        stats.latestUpload = cd.uploadedAt;
+      }
+    });
+
+    res.json({ stats });
+  } catch (error) {
+    console.error("Error fetching credit data stats:", error);
+    res.status(500).json({
+      error: "Failed to fetch credit data statistics",
+      message: error.message || "An unexpected error occurred",
+    });
+  }
+});
+
+app.get("/api/credit-data/history", authenticateToken, async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+
+    const db = await readDB();
+    const userCreditData =
+      db.creditData?.filter(
+        (cd) => cd.userId === req.userId && cd.status === "completed"
+      ) || [];
+
+    // Calculate pagination
+    const totalRecords = userCreditData.length;
+    const totalPages = Math.ceil(totalRecords / limitNum);
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum;
+
+    // Get paginated data
+    const paginatedData = userCreditData.slice(startIndex, endIndex);
+
+    res.json({
+      creditData: paginatedData.map(({ data, filePath, ...rest }) => rest),
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalRecords,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch credit data history" });
+  }
+});
 
 app.get(
   "/api/credit-data/status/:fileId",
@@ -1168,19 +1413,143 @@ app.get(
   }
 );
 
-app.get("/api/credit-data/history", authenticateToken, async (req, res) => {
+app.get("/api/credit-data", authenticateToken, async (req, res) => {
   try {
+    const {
+      source,
+      status,
+      sortBy = "uploadedAt",
+      sortOrder = "desc",
+      page = 1,
+      limit = 10,
+    } = req.query;
     const db = await readDB();
-    const userCreditData =
-      db.creditData?.filter(
-        (cd) => cd.userId === req.userId && cd.status === "completed"
-      ) || [];
+
+    // Filter credit data for the authenticated user
+    let creditDataList =
+      db.creditData?.filter((cd) => cd.userId === req.userId) || [];
+
+    // Apply filters
+    if (source) {
+      creditDataList = creditDataList.filter(
+        (cd) => cd.source.toLowerCase() === source.toLowerCase()
+      );
+    }
+
+    if (status) {
+      creditDataList = creditDataList.filter(
+        (cd) => cd.status.toLowerCase() === status.toLowerCase()
+      );
+    }
+
+    // Sort the results
+    creditDataList.sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case "uploadedAt":
+          comparison = new Date(b.uploadedAt) - new Date(a.uploadedAt);
+          break;
+        case "fileName":
+          comparison = a.fileName.localeCompare(b.fileName);
+          break;
+        case "source":
+          comparison = a.source.localeCompare(b.source);
+          break;
+        case "status":
+          comparison = a.status.localeCompare(b.status);
+          break;
+        default:
+          comparison = new Date(b.uploadedAt) - new Date(a.uploadedAt);
+      }
+      return sortOrder === "desc" ? comparison : -comparison;
+    });
+
+    // Calculate pagination
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum;
+    const totalRecords = creditDataList.length;
+    const totalPages = Math.ceil(totalRecords / limitNum);
+
+    // Get paginated results
+    const paginatedResults = creditDataList.slice(startIndex, endIndex);
+
+    // Format response data to exclude sensitive information
+    const formattedResults = paginatedResults.map(
+      ({ id, source, fileName, fileSize, uploadedAt, status, error }) => ({
+        id,
+        source,
+        fileName,
+        fileSize,
+        uploadedAt,
+        status,
+        error: error || null,
+      })
+    );
 
     res.json({
-      creditData: userCreditData.map(({ data, filePath, ...rest }) => rest),
+      creditData: formattedResults,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalRecords,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1,
+      },
+      filters: {
+        source,
+        status,
+        sortBy,
+        sortOrder,
+      },
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch credit data history" });
+    console.error("Error fetching credit data:", error);
+    res.status(500).json({
+      error: "Failed to fetch credit data",
+      message: error.message || "An unexpected error occurred",
+    });
+  }
+});
+
+// Get credit data by ID
+app.get("/api/credit-data/:id", authenticateToken, async (req, res) => {
+  try {
+    const db = await readDB();
+    const creditData = db.creditData?.find(
+      (cd) => cd.id === req.params.id && cd.userId === req.userId
+    );
+
+    if (!creditData) {
+      return res.status(404).json({
+        error: "Credit data not found",
+        message:
+          "The requested credit data does not exist or you do not have access to it",
+      });
+    }
+
+    // Format response to exclude sensitive information
+    const { id, source, fileName, fileSize, uploadedAt, status, error } =
+      creditData;
+
+    res.json({
+      creditData: {
+        id,
+        source,
+        fileName,
+        fileSize,
+        uploadedAt,
+        status,
+        error: error || null,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching credit data:", error);
+    res.status(500).json({
+      error: "Failed to fetch credit data",
+      message: error.message || "An unexpected error occurred",
+    });
   }
 });
 
@@ -1205,6 +1574,378 @@ app.delete(
     }
   }
 );
+
+// chat feature
+// Transaction Categories by Source
+const TRANSACTION_CATEGORIES = {
+  mpesa: {
+    SEND_MONEY: "Send Money",
+    RECEIVE_MONEY: "Receive Money",
+    BUY_GOODS: "Buy Goods",
+    PAYBILL: "Pay Bill",
+    WITHDRAWAL: "Withdrawal",
+    AIRTIME: "Airtime",
+    LOAN: "Loan Transactions",
+  },
+  transunion: {
+    CREDIT_CARD: "Credit Card",
+    PERSONAL_LOAN: "Personal Loan",
+    MORTGAGE: "Mortgage",
+    AUTO_LOAN: "Auto Loan",
+  },
+  experian: {
+    CREDIT_ACCOUNTS: "Credit Accounts",
+    INQUIRIES: "Credit Inquiries",
+    COLLECTIONS: "Collections",
+  },
+  equifax: {
+    TRADE_LINES: "Trade Lines",
+    PUBLIC_RECORDS: "Public Records",
+    CREDIT_HISTORY: "Credit History",
+  },
+};
+
+// Updated Categories Endpoint
+app.get("/api/chat/categories/:source", authenticateToken, async (req, res) => {
+  try {
+    const { source } = req.params;
+
+    if (!TRANSACTION_CATEGORIES[source.toLowerCase()]) {
+      return res.status(400).json({
+        error: "Invalid source",
+        message: "Source must be one of: mpesa, transunion, experian, equifax",
+      });
+    }
+
+    // For Mpesa, get actual transaction counts from the data
+    if (source.toLowerCase() === "mpesa") {
+      const { uploadId } = req.query;
+      if (!uploadId) {
+        return res.status(400).json({
+          error: "Missing uploadId",
+          message: "uploadId is required for Mpesa transactions",
+        });
+      }
+
+      const filePath = await getUploadFilePath(uploadId, req.userId);
+      const rawData = await readMpesaCSV(filePath);
+      const transactions = processTransactions(rawData);
+
+      // Count transactions by category
+      const categories = transactions.reduce((acc, t) => {
+        const category = t.category;
+        if (!acc[category]) {
+          acc[category] = {
+            count: 0,
+            totalAmount: 0,
+          };
+        }
+        acc[category].count++;
+        acc[category].totalAmount += (t.paidIn || 0) - (t.withdrawn || 0);
+        return acc;
+      }, {});
+
+      return res.json({ categories });
+    }
+
+    // For credit bureaus, return predefined categories
+    const categories = Object.entries(
+      TRANSACTION_CATEGORIES[source.toLowerCase()]
+    ).reduce((acc, [key, label]) => {
+      acc[key] = {
+        label,
+        count: 0, // These would be populated from actual data
+        totalAmount: 0,
+      };
+      return acc;
+    }, {});
+
+    res.json({ categories });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({
+      error: "Failed to fetch categories",
+      message: error.message,
+    });
+  }
+});
+
+// Updated Transactions by Category Endpoint
+app.get(
+  "/api/chat/:source/transactions/:category",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { source, category } = req.params;
+      const { uploadId } = req.query;
+
+      if (!TRANSACTION_CATEGORIES[source.toLowerCase()]) {
+        return res.status(400).json({
+          error: "Invalid source",
+          message:
+            "Source must be one of: mpesa, transunion, experian, equifax",
+        });
+      }
+
+      // Handle Mpesa transactions
+      if (source.toLowerCase() === "mpesa") {
+        if (!uploadId) {
+          return res.status(400).json({
+            error: "Missing uploadId",
+            message: "uploadId is required for Mpesa transactions",
+          });
+        }
+
+        const filePath = await getUploadFilePath(uploadId, req.userId);
+        const rawData = await readMpesaCSV(filePath);
+        let transactions = processTransactions(rawData).filter(
+          (t) => t.category === category
+        );
+
+        return res.json({ transactions });
+      }
+
+      // Handle credit bureau data
+      const db = await readDB();
+      const creditData = db.creditData.find(
+        (cd) =>
+          cd.userId === req.userId &&
+          cd.source === source.toLowerCase() &&
+          cd.status === "completed"
+      );
+
+      if (!creditData) {
+        return res.status(404).json({
+          error: "Data not found",
+          message: `No processed ${source} data found`,
+        });
+      }
+
+      // Return category-specific data
+      const transactions = creditData.data[category] || [];
+      res.json({ transactions });
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      res.status(500).json({
+        error: "Failed to fetch transactions",
+        message: error.message,
+      });
+    }
+  }
+);
+
+// Updated Chat Service for Different Sources
+app.post("/api/chat/:source/message", authenticateToken, async (req, res) => {
+  try {
+    const { source } = req.params;
+    const { uploadIds, message } = req.body;
+
+    if (!uploadIds || !Array.isArray(uploadIds) || uploadIds.length === 0) {
+      return res.status(400).json({
+        error: "Invalid request",
+        message: "uploadIds must be an array of upload IDs",
+      });
+    }
+
+    if (!message) {
+      return res.status(400).json({
+        error: "Invalid request",
+        message: "message is required",
+      });
+    }
+
+    // Handle M-Pesa chat
+    if (source === "mpesa") {
+      // Get transactions from all selected uploads
+      const transactions = [];
+      for (const uploadId of uploadIds) {
+        const filePath = await getUploadFilePath(uploadId, req.userId);
+        const rawData = await readMpesaCSV(filePath);
+        const processedTransactions = processTransactions(rawData);
+        transactions.push(...processedTransactions);
+      }
+
+      //response TODO: replace actual AI logic
+      const aiResponse = {
+        message: `Analyzing ${transactions.length} transactions from ${uploadIds.length} M-Pesa statements...`,
+        timestamp: new Date().toISOString(),
+      };
+
+      return res.json({ aiResponse });
+    }
+
+    // Handle credit bureau chat
+    const creditData = [];
+    for (const uploadId of uploadIds) {
+      const data = await getCreditDataById(uploadId, req.userId);
+      if (data) {
+        creditData.push(data);
+      }
+    }
+
+    // Create a response (replace with your actual AI logic)
+    const aiResponse = {
+      message: `Analyzing credit data from ${uploadIds.length} reports...`,
+      timestamp: new Date().toISOString(),
+    };
+
+    res.json({ aiResponse });
+  } catch (error) {
+    console.error("Error processing chat message:", error);
+    res.status(500).json({
+      error: "Server error",
+      message: error.message,
+    });
+  }
+});
+
+// Helper function to get credit data by ID
+async function getCreditDataById(uploadId, userId) {
+  const db = await readDB();
+  return db.creditData.find(
+    (cd) =>
+      cd.id === uploadId && cd.userId === userId && cd.status === "completed"
+  );
+}
+
+// Chat history routes
+app.post('/api/chat/:source/history', authenticateToken, async (req, res) => {
+  try {
+    const { source } = req.params;
+    const { title, uploadIds, messages } = req.body;
+    
+    const db = await readDB();
+    
+    // Create new history entry
+    const historyEntry = {
+      id: String(Date.now()),
+      userId: req.userId,
+      source,
+      title,
+      uploadIds,
+      messages,
+      createdAt: new Date().toISOString(),
+      shareToken: null
+    };
+    
+    // Add to db
+    if (!db.chatHistories) db.chatHistories = [];
+    db.chatHistories.push(historyEntry);
+    await writeDB(db);
+    
+    res.status(201).json({ history: historyEntry });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to save chat history' });
+  }
+});
+
+app.get('/api/chat/:source/histories', authenticateToken, async (req, res) => {
+  try {
+    const { source } = req.params;
+    const { page = 1, limit = 10 } = req.query;
+    
+    const db = await readDB();
+    const histories = db.chatHistories?.filter(h => 
+      h.userId === req.userId && h.source === source
+    ) || [];
+    
+    // Implement pagination
+    const start = (page - 1) * limit;
+    const paginatedHistories = histories.slice(start, start + limit);
+    
+    res.json({
+      histories: paginatedHistories,
+      pagination: {
+        total: histories.length,
+        page: parseInt(page),
+        totalPages: Math.ceil(histories.length / limit)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch chat histories' });
+  }
+});
+
+app.get('/api/chat/:source/history/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = await readDB();
+    
+    const history = db.chatHistories?.find(h => 
+      h.id === id && h.userId === req.userId
+    );
+    
+    if (!history) {
+      return res.status(404).json({ error: 'Chat history not found' });
+    }
+    
+    res.json({ history });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch chat history' });
+  }
+});
+
+app.delete('/api/chat/:source/history/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = await readDB();
+    
+    const index = db.chatHistories?.findIndex(h => 
+      h.id === id && h.userId === req.userId
+    );
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'Chat history not found' });
+    }
+    
+    db.chatHistories.splice(index, 1);
+    await writeDB(db);
+    
+    res.json({ message: 'Chat history deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete chat history' });
+  }
+});
+
+app.post('/api/chat/:source/history/:id/share', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = await readDB();
+    
+    const history = db.chatHistories?.find(h => 
+      h.id === id && h.userId === req.userId
+    );
+    
+    if (!history) {
+      return res.status(404).json({ error: 'Chat history not found' });
+    }
+    
+    // Generate share token
+    history.shareToken = Math.random().toString(36).substring(2, 15);
+    await writeDB(db);
+    
+    res.json({ shareToken: history.shareToken });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to share chat history' });
+  }
+});
+
+app.get('/api/chat/shared/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const db = await readDB();
+    
+    const history = db.chatHistories?.find(h => h.shareToken === token);
+    
+    if (!history) {
+      return res.status(404).json({ error: 'Shared chat history not found' });
+    }
+    
+    res.json({ history });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch shared chat history' });
+  }
+});
 
 // Error handling middleware for multer
 app.use((error, req, res, next) => {
