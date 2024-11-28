@@ -218,8 +218,12 @@ const DataChatInterface = () => {
     };
 
     return (
-        <AuthenticatedLayout>
-            <div className="flex h-screen max-h-[600px]"> {/* Reduced height by 40% from 800px */}
+            <AuthenticatedLayout>
+                <div className="container flex justify-between items-center mb-1">
+                    <h1 className="text-3xl font-bold">Data Talk</h1>
+                </div> 
+                <div className="flex h-screen max-h-[600px]">
+                {/* Reduced height by 40% from 800px */}
                 {/* Left Panel - Data Selection */}
                 <div className="w-1/2 border-r p-4 flex flex-col overflow-hidden">
                     <Card className="h-full flex flex-col">
@@ -304,11 +308,11 @@ const DataChatInterface = () => {
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Chat with Your Data</CardTitle>
                             <Input
-                                    placeholder="Chat title..."
-                                    value={chatTitle}
-                                    onChange={(e) => setChatTitle(e.target.value)}
-                                    className="w-48"
-                                />
+                                placeholder="Chat title..."
+                                value={chatTitle}
+                                onChange={(e) => setChatTitle(e.target.value)}
+                                className="w-48"
+                            />
                         </CardHeader>
                         <CardContent className="flex-1 flex flex-col overflow-hidden">
                             <div className="flex-1 overflow-y-auto mb-4 space-y-4">

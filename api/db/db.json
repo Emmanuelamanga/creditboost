@@ -906,6 +906,22 @@
         "q1_1": "a",
         "q1_2": "b"
       }
+    },
+    {
+      "userId": "1732382016384",
+      "quizId": "q1",
+      "attemptNumber": 5,
+      "startedAt": "2024-11-28T21:51:24.155Z"
+    },
+    {
+      "userId": "1732382016384",
+      "quizId": "q1",
+      "score": 0,
+      "completedAt": "2024-11-28T21:51:28.286Z",
+      "answers": {
+        "q1_1": "b",
+        "q1_2": "a"
+      }
     }
   ],
   "creditData": [
@@ -1187,6 +1203,58 @@
       ],
       "createdAt": "2024-11-28T21:06:31.070Z",
       "shareToken": "l4q02dz0olg"
+    },
+    {
+      "id": "1732830422520",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Chat 11/29/2024",
+      "uploadIds": [
+        "1732820686400",
+        "1732820555381"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "What was the highest transaction this month ",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:47:02.334Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:47:02.509Z"
+        }
+      ],
+      "createdAt": "2024-11-28T21:47:02.520Z",
+      "shareToken": null
+    },
+    {
+      "id": "1732830710412",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "trial values",
+      "uploadIds": [
+        "1732820686400",
+        "1732820555381"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "game of throne ",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:51:50.092Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:51:50.398Z"
+        }
+      ],
+      "createdAt": "2024-11-28T21:51:50.412Z",
+      "shareToken": "ogg0ok3e6qd"
     }
   ]
 }
