@@ -3,21 +3,14 @@ import { Img } from 'react-image';
 import { Link, useLocation } from "react-router-dom"
 
 import {
-    File,
     Home,
     LineChart,
-    ListFilter,
-    MoreHorizontal,
     Package,
     Package2,
     PanelLeft,
-    PlusCircle,
     Search,
-    Settings,
-    ShoppingCart,
     Users2,
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -30,7 +23,6 @@ import { Button } from "@/components/ui/button"
 
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,

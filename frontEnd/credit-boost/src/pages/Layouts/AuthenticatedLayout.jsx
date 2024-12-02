@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logos/logo-no-bg.png';
 import { UserAccountDropdown } from '@/components/Common/UserAccountDropdown';
+import Header from '@/components/Common/Header';
 
 const AuthenticatedLayout = ({ children }) => {
     const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true);
@@ -77,6 +78,7 @@ const AuthenticatedLayout = ({ children }) => {
                     <UserAccountDropdown />
                 </div>
             </header>
+
 
             <div className="flex-1 flex overflow-hidden">
                 {/* Left Sidebar */}

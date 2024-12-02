@@ -175,10 +175,10 @@ app.post("/api/auth/register", async (req, res) => {
   try {
     console.log(req.body);
 
-    const { name, email, phone, password } = req.body;
+    const { firstName, lastName, email, phone, password } = req.body;
 
     // Validation
-    if (!name || !email || !password) {
+    if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -193,7 +193,8 @@ app.post("/api/auth/register", async (req, res) => {
 
     const newUser = {
       id: String(Date.now()),
-      name,
+      firstName,
+      lastName,
       email,
       phone: phone || null,
       password: hashedPassword,
@@ -208,14 +209,14 @@ app.post("/api/auth/register", async (req, res) => {
       token,
       user: {
         id: newUser.id,
-        name: newUser.name,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
         email: newUser.email,
         phone: newUser.phone,
       },
     });
   } catch (error) {
     console.log(error);
-
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -258,42 +259,97 @@ app.post("/api/auth/verify", authenticateToken, async (req, res) => {
   }
 });
 
-app.get("/api/auth/me", authenticateToken, async (req, res) => {
+app.post("/api/auth/refresh", authenticateToken, async (req, res) => {
   try {
-    const db = await readDB();
-    const user = db.users.find((u) => u.id === req.user.id);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const { password, ...userData } = user;
-    res.json(userData);
+      const newToken = generateToken(req.userId);
+      res.json({ token: newToken });
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+      res.status(500).json({ error: "Failed to refresh token" });
   }
 });
 
+app.get("/api/auth/me", authenticateToken, async (req, res) => {
+  try {
+      console.log("Getting user data for ID:", req.user.id);
+      
+      const db = await readDB();
+      const user = db.users.find((u) => u.id === req.user.id);
+      
+      if (!user) {
+          console.log("User not found:", req.user.id);
+          return res.status(404).json({ error: "User not found" });
+      }
+
+      // Return safe user data
+      const userData = {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone || null,
+          createdAt: user.createdAt
+      };
+
+      console.log("Returning user data:", userData);
+      res.json(userData);
+  } catch (error) {
+      console.error("Error in /auth/me:", error);
+      res.status(500).json({ error: "Server error", details: error.message });
+  }
+});
+
+// In server.js, update the PUT /api/auth/update route:
 app.put("/api/auth/update", authenticateToken, async (req, res) => {
   try {
+    // Basic validation
+    const { firstName, lastName, email, phone } = req.body;
+    if (!firstName || !lastName || !email) {
+      return res.status(400).json({ 
+        error: "Missing required fields",
+        details: "First name, last name, and email are required" 
+      });
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        error: "Invalid email format" 
+      });
+    }
+
     const db = await readDB();
-    const userIndex = db.users.findIndex((u) => u.id === req.user.id);
+    const userIndex = db.users.findIndex((u) => u.id === req.userId);
+    
     if (userIndex === -1) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Check if email is already taken by another user
+    const emailExists = db.users.some(u => u.id !== req.userId && u.email === email);
+    if (emailExists) {
+      return res.status(400).json({ error: "Email already in use" });
+    }
+
+    // Update user data
     const updatedUser = {
       ...db.users[userIndex],
-      ...req.body,
-      updatedAt: new Date().toISOString(),
+      firstName,
+      lastName,
+      email,
+      phone: phone || null,
+      updatedAt: new Date().toISOString()
     };
 
     db.users[userIndex] = updatedUser;
     await writeDB(db);
 
+    // Return user data without sensitive information
     const { password, ...userData } = updatedUser;
     res.json(userData);
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    console.error("Profile update error:", error);
+    res.status(500).json({ error: "Server error", message: error.message });
   }
 });
 
@@ -1945,6 +2001,335 @@ app.get('/api/chat/shared/:token', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch shared chat history' });
   }
+});
+
+// Settings routes
+app.get("/api/settings", authenticateToken, async (req, res) => {
+  try {    
+    const db = await readDB();
+    const user = db.users.find((u) => u.id === req.userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Initialize settings if they don't exist
+    if (!db.settings) {
+      db.settings = [];
+    }
+
+    let userSettings = db.settings.find((s) => s.userId === req.userId);
+    
+    if (!userSettings) {
+      userSettings = {
+        userId: req.userId,
+        notifications: {
+          emailUpdates: true,
+          creditScoreChanges: true,
+          newLearningContent: false,
+          desktopNotifications: true,
+          soundNotifications: false
+        }
+      };
+      db.settings.push(userSettings);
+      await writeDB(db);
+    }
+
+    const { password, ...userData } = user;
+    res.json({
+      profile: userData,
+      notifications: userSettings.notifications
+    });
+  } catch (error) {
+    console.error("Error fetching settings:", error);
+    res.status(500).json({ error: "Failed to fetch settings" });
+  }
+});
+
+app.put("/api/settings/profile", authenticateToken, async (req, res) => {
+  try {
+    const { firstName, lastName, email, phone } = req.body;
+
+    // Validation
+    if (!firstName || !lastName || !email) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["First name, last name, and email are required"]
+      });
+    }
+
+    if (email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Invalid email format"]
+      });
+    }
+
+    if (phone && !phone.match(/^\+?[\d\s-()]+$/)) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Invalid phone number format"]
+      });
+    }
+
+    const db = await readDB();
+    const userIndex = db.users.findIndex((u) => u.id === req.userId);
+
+    if (userIndex === -1) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if email is already taken by another user
+    const emailExists = db.users.some(
+      (u) => u.id !== req.userId && u.email === email
+    );
+    if (emailExists) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Email is already in use"]
+      });
+    }
+
+    // Update user profile
+    const updatedUser = {
+      ...db.users[userIndex],
+      firstName,
+      lastName,
+      email,
+      phone: phone || null,
+      updatedAt: new Date().toISOString()
+    };
+
+    db.users[userIndex] = updatedUser;
+    await writeDB(db);
+
+    const { password, ...userData } = updatedUser;
+    res.json(userData);
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+});
+
+app.put("/api/settings/security/password", authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // Validation
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Current password and new password are required"]
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Password must be at least 8 characters long"]
+      });
+    }
+
+    if (!newPassword.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: ["Password must contain at least one letter, one number, and one special character"]
+      });
+    }
+
+    const db = await readDB();
+    const user = db.users.find((u) => u.id === req.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Verify current password
+    const isValidPassword = await comparePassword(currentPassword, user.password);
+    if (!isValidPassword) {
+      return res.status(401).json({
+        error: "Authentication failed",
+        details: ["Current password is incorrect"]
+      });
+    }
+
+    // Update password
+    const hashedPassword = await hashPassword(newPassword);
+    const userIndex = db.users.findIndex((u) => u.id === req.userId);
+    db.users[userIndex] = {
+      ...user,
+      password: hashedPassword,
+      updatedAt: new Date().toISOString()
+    };
+
+    await writeDB(db);
+    res.json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ error: "Failed to update password" });
+  }
+});
+
+app.put("/api/settings/notifications", authenticateToken, async (req, res) => {
+  try {
+    const notificationSettings = req.body;
+
+    // Validation
+    const requiredSettings = [
+      "emailUpdates",
+      "creditScoreChanges",
+      "newLearningContent",
+      "desktopNotifications",
+      "soundNotifications"
+    ];
+
+    const missingSettings = requiredSettings.filter(
+      (setting) => notificationSettings[setting] === undefined
+    );
+
+    if (missingSettings.length > 0) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: [`Missing required settings: ${missingSettings.join(", ")}`]
+      });
+    }
+
+    const db = await readDB();
+    
+    // Initialize settings array if it doesn't exist
+    if (!db.settings) {
+      db.settings = [];
+    }
+
+    const settingIndex = db.settings.findIndex((s) => s.userId === req.userId);
+
+    if (settingIndex === -1) {
+      // Create new settings
+      db.settings.push({
+        userId: req.userId,
+        notifications: notificationSettings,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      });
+    } else {
+      // Update existing settings
+      db.settings[settingIndex] = {
+        ...db.settings[settingIndex],
+        notifications: notificationSettings,
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    await writeDB(db);
+    res.json({ notifications: notificationSettings });
+  } catch (error) {
+    console.error("Error updating notification settings:", error);
+    res.status(500).json({ error: "Failed to update notification settings" });
+  }
+});
+
+// Profile photo upload
+// Profile photo upload configuration
+const profilePhotoStorage = multer.diskStorage({
+  destination: async (req, file, cb) => {
+      const uploadDir = path.join(__dirname, "../uploads/profiles");
+      try {
+          await fs.access(uploadDir);
+      } catch {
+          await fs.mkdir(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `profile-${uniqueSuffix}${ext}`);
+  }
+});
+
+const profilePhotoUpload = multer({
+  storage: profilePhotoStorage,
+  fileFilter: (req, file, cb) => {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.mimetype)) {
+          cb(new Error('Only JPEG, PNG, GIF, and WebP images are allowed'));
+          return;
+      }
+      cb(null, true);
+  },
+  limits: {
+      fileSize: 5 * 1024 * 1024 // 5MB
+  }
+}).single('file');
+
+// Update the profile photo upload route
+app.post("/api/settings/profile/photo", authenticateToken, (req, res) => {
+  profilePhotoUpload(req, res, async (err) => {
+      try {
+          if (err instanceof multer.MulterError) {
+              return res.status(400).json({
+                  error: "Upload failed",
+                  message: err.code === "LIMIT_FILE_SIZE" 
+                      ? "File size too large. Maximum size is 5MB"
+                      : err.message
+              });
+          } else if (err) {
+              return res.status(400).json({
+                  error: "Upload failed",
+                  message: err.message
+              });
+          }
+
+          if (!req.file) {
+              return res.status(400).json({
+                  error: "Upload failed",
+                  message: "No file provided"
+              });
+          }
+
+          const db = await readDB();
+          const userIndex = db.users.findIndex(u => u.id === req.userId);
+
+          if (userIndex === -1) {
+              return res.status(404).json({
+                  error: "Not found",
+                  message: "User not found"
+              });
+          }
+
+          // Delete old profile photo if it exists
+          if (db.users[userIndex].photoUrl) {
+              const oldPhotoPath = path.join(__dirname, "..", db.users[userIndex].photoUrl);
+              try {
+                  await fs.access(oldPhotoPath);
+                  await fs.unlink(oldPhotoPath);
+              } catch (error) {
+                  console.error('Error deleting old photo:', error);
+              }
+          }
+
+          // Update user's profile photo URL
+          const photoUrl = `/uploads/profiles/${req.file.filename}`;
+          db.users[userIndex] = {
+              ...db.users[userIndex],
+              photoUrl,
+              updatedAt: new Date().toISOString()
+          };
+
+          await writeDB(db);
+
+          res.json({
+              success: true,
+              photoUrl
+          });
+      } catch (error) {
+          console.error('Profile photo upload error:', error);
+          res.status(500).json({
+              error: "Server error",
+              message: error.message
+          });
+      }
+  });
 });
 
 // Error handling middleware for multer

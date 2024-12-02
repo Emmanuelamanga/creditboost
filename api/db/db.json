@@ -1,397 +1,40 @@
 {
   "users": [
     {
-      "id": "1732198367654",
-      "name": "Emmanuel Amanga",
-      "email": "test@test.com",
-      "phone": "000",
-      "password": "$2b$10$/BXCFUVECQrdtxfa48K5ju05Vjf07WBP8nqNdY1v91.6o3ZIKp.Ae",
-      "createdAt": "2024-11-21T14:12:47.654Z"
+      "id": "1733124179212",
+      "firstName": "Emmanuel",
+      "lastName": "Amanga",
+      "email": "bofyjon@mailinator.coms",
+      "phone": "+1 (994) 149-7251",
+      "password": "$2b$10$mlZj7Asw74wjELHt7j4NL.qTUTDNj7YJ7At4gIPbJiSI8knFQOQ32",
+      "createdAt": "2024-12-02T07:22:59.212Z",
+      "updatedAt": "2024-12-02T07:38:15.258Z",
+      "photoUrl": "/uploads/profiles/profile-1733124674743-80641734.jpg"
     },
     {
-      "id": "1732219305827",
-      "name": "Qui deleniti molesti",
-      "email": "bubifolik@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$lDksMsdeDTFjz3K8FPMb2.3xIxfvnd0wc0u90IT0X0euC15FRGWuy",
-      "createdAt": "2024-11-21T20:01:45.827Z"
+      "id": "1733125115779",
+      "firstName": "Consectetur quos ex",
+      "lastName": "Dolor aut cumque id ",
+      "email": "nacyg@mailinator.coms",
+      "phone": "+1 (102) 876-9142",
+      "password": "$2b$10$mHSgFMkl.ABFa4tb9bh6c.uEpCHjRXm9nUg/rHm7GEViuQVKg8Ydm",
+      "createdAt": "2024-12-02T07:38:35.779Z",
+      "updatedAt": "2024-12-02T07:38:52.898Z"
     },
     {
-      "id": "1732220987786",
-      "name": "Suscipit enim totam ",
-      "email": "vomatas@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$MVqmtA9g.VwHMjgU4oZfMuJHBRqGDWsy.ssMK6U4xHkbgcj3HK9na",
-      "createdAt": "2024-11-21T20:29:47.786Z"
-    },
-    {
-      "id": "1732225133056",
-      "name": "Ad et eaque odit ver",
-      "email": "xagiqy@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$Dm3Pel/u32rUPeii9i7OkuDq35LTFQaa24fD.WihXwQWqmwnffYze",
-      "createdAt": "2024-11-21T21:38:53.056Z"
-    },
-    {
-      "id": "1732360118584",
-      "name": "Necessitatibus iure ",
-      "email": "vece@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$PCQOpDxOitifC6aFBS95K.5xc53xZigbOU2ZHhqRFbOrsGwUETEOy",
-      "createdAt": "2024-11-23T11:08:38.584Z"
-    },
-    {
-      "id": "1732360226831",
-      "name": "Do quasi blanditiis ",
-      "email": "xyfycany@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$aT14GerTPLW7ommJMF.AgO9PxL0xfISgTaMCqmqKrd7eZ5lhgaG2W",
-      "createdAt": "2024-11-23T11:10:26.831Z"
-    },
-    {
-      "id": "1732360338929",
-      "name": "Aut debitis quisquam",
-      "email": "lilagelad@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$h/wmx6xmOjyGRPlIhuFn8ekgJLzlauhe0pEvVzUkOXeoByXp/OjnK",
-      "createdAt": "2024-11-23T11:12:18.929Z"
-    },
-    {
-      "id": "1732360449762",
-      "name": "Ut et exercitationem",
-      "email": "deguhe@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$WyT7gWgLPu8XfyGET.MK9eiD3zxHVMHCvkpDioS9mjypL372cKD5O",
-      "createdAt": "2024-11-23T11:14:09.762Z"
-    },
-    {
-      "id": "1732360531848",
-      "name": "Tempore sint volupt",
-      "email": "pyqic@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$7Zs9v3fkHJeKCeGBjBzfi.wStb5dV4Ours4NJLSvWbarClvPT9T8.",
-      "createdAt": "2024-11-23T11:15:31.848Z"
-    },
-    {
-      "id": "1732361125600",
-      "name": "Consectetur dolorib",
-      "email": "gywy@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$Xao6QhidZbgMes9O5mPgs.GNvZtZR4PdDfR.60.g66ERBp12Ia7uK",
-      "createdAt": "2024-11-23T11:25:25.600Z"
-    },
-    {
-      "id": "1732362228117",
-      "name": "Tempor voluptate nat",
-      "email": "zujut@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$.qyR1qKzX9VkOSDA5yvCee8lZ0JvedHew4S6VaHtr9Kiq84dUxMcy",
-      "createdAt": "2024-11-23T11:43:48.117Z"
-    },
-    {
-      "id": "1732382016384",
-      "name": "Quia excepturi excep",
-      "email": "giwo@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$odX2/64J1W6T3PbtPROL/uBX7FR3lzaMlN1zLFp2CRWUmC6Hsg34m",
-      "createdAt": "2024-11-23T17:13:36.384Z"
-    },
-    {
-      "id": "1732382065686",
-      "name": "Sint ratione volupta",
-      "email": "mymivy@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$oLUUyDWcYwvm0FkIjPe81eFzgClyQIEMBpG1gmfp/C/KiLxC56Ufm",
-      "createdAt": "2024-11-23T17:14:25.686Z"
-    },
-    {
-      "id": "1732382429076",
-      "name": "Reprehenderit recusa",
-      "email": "povywiru@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$06GZli.fuiRxI.KOAhwm7OS1zzLHAGD8kuY0TwFM.QIlifOs5pjYa",
-      "createdAt": "2024-11-23T17:20:29.076Z"
-    },
-    {
-      "id": "1732382480963",
-      "name": "Ex voluptatibus mole",
-      "email": "juhelilu@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$kqDck1Vwj8/ThaVgLrQAqO65vOXf8Wga7vGSi8DQQLvNG2IYdHgdu",
-      "createdAt": "2024-11-23T17:21:20.963Z"
-    },
-    {
-      "id": "1732382553704",
-      "name": "Voluptatem adipisci ",
-      "email": "cebewu@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$C./OTqBCtuz2MnJkTEnMBOkghM6Y9kmhKC0JZLdyqWzb.veDI6vk2",
-      "createdAt": "2024-11-23T17:22:33.704Z"
-    },
-    {
-      "id": "1732385881051",
-      "name": "Cupidatat ex sit nih",
-      "email": "zinoz@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$Oaqm1jVYOXLqJY/T6GV3.OnP8NDTZ7Im6.ySE55uXGL/QMZjo2NI.",
-      "createdAt": "2024-11-23T18:18:01.051Z"
-    },
-    {
-      "id": "1732396413630",
-      "name": "Ut et nemo voluptati",
-      "email": "dume@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$JzMVeT0yFjgA89elKlDRP.7le.JHFIOKJJhR8WWbkeESo7YEnWlG.",
-      "createdAt": "2024-11-23T21:13:33.630Z"
-    },
-    {
-      "id": "1732476454801",
-      "name": "Fugiat ea sapiente d",
-      "email": "rety@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$Bdrb0mEM4HUmAso7SXZppectBVZzLnHH3331S7UwyJwi5pjP1TvMm",
-      "createdAt": "2024-11-24T19:27:34.801Z"
-    },
-    {
-      "id": "1732620253808",
-      "name": "Sit corrupti volup",
-      "email": "daqar@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$sXoy/Z18.GcAbwYMwQuGC.ip4IhKDHxFDtn60Vj0OuZ2xGaPKRrJy",
-      "createdAt": "2024-11-26T11:24:13.808Z"
-    },
-    {
-      "id": "1732692184337",
-      "name": "Exercitation nulla c",
-      "email": "bykonola@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$AJ5SbGttvHtvdJPC05Vexe4arIf01xPueDTJaEy4Aw6pvng724N7K",
-      "createdAt": "2024-11-27T07:23:04.337Z"
-    },
-    {
-      "id": "1732726740185",
-      "name": "Nostrud pariatur Et",
-      "email": "dakuqyne@mailinator.com",
-      "phone": null,
-      "password": "$2b$10$OHJMxB.99SjdePTFh7yVAOe0S.V9pK0D1m.Vv6NbjNhT0IzW9tjdG",
-      "createdAt": "2024-11-27T16:59:00.185Z"
-    },
-    {
-      "id": "1732727424355",
-      "name": "Emmanuel",
-      "email": "test@admin.com",
-      "phone": null,
-      "password": "$2b$10$Yc7u3nE2gKCD1SJG6ejjCOY1LnkPBkr0qZ6hOpwxH5NFhcEx54PI6",
-      "createdAt": "2024-11-27T17:10:24.355Z"
+      "id": "1733125378787",
+      "firstName": "Emmanuels",
+      "lastName": "Amangas",
+      "email": "lemybuw@mailinator.com",
+      "phone": "+1 (739) 818-2078",
+      "password": "$2b$10$DrpyfxNl9EN84/XvyJi7aOF80nUWoBiKYxgVgMecwtaTua4s0f3oy",
+      "createdAt": "2024-12-02T07:42:58.787Z",
+      "updatedAt": "2024-12-02T07:46:21.839Z",
+      "photoUrl": "/uploads/profiles/profile-1733125581834-252832169.jpg"
     }
   ],
-  "communities": [
-    {
-      "id": "1732219440610",
-      "name": "Waumini Community ",
-      "description": "famous is not pride",
-      "members": [
-        "1"
-      ],
-      "rating": 0,
-      "memberCount": 1,
-      "createdAt": "2024-11-21T20:04:00.610Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732219443490",
-      "name": "Waumini Community ",
-      "description": "famous is not pride",
-      "members": [
-        "1"
-      ],
-      "rating": 0,
-      "memberCount": 1,
-      "createdAt": "2024-11-21T20:04:03.490Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732222542927",
-      "name": "dsfs",
-      "description": "sdfsf",
-      "members": [],
-      "rating": 0,
-      "memberCount": 0,
-      "createdAt": "2024-11-21T20:55:42.927Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732222636713",
-      "name": "game",
-      "description": "game over \n",
-      "members": [
-        "1"
-      ],
-      "rating": 0,
-      "memberCount": 1,
-      "createdAt": "2024-11-21T20:57:16.713Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732223413833",
-      "name": "fdsdf",
-      "description": "sdfsf",
-      "members": [],
-      "rating": 0,
-      "memberCount": 0,
-      "createdAt": "2024-11-21T21:10:13.833Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732225328050",
-      "name": "NEw Community ",
-      "description": "Being new is good\n",
-      "members": [],
-      "rating": 0,
-      "memberCount": 0,
-      "createdAt": "2024-11-21T21:42:08.050Z",
-      "rules": [],
-      "owner": "1"
-    },
-    {
-      "id": "1732361035683",
-      "name": "new c",
-      "description": "community",
-      "members": [],
-      "rating": 0,
-      "memberCount": 0,
-      "createdAt": "2024-11-23T11:23:55.683Z",
-      "rules": [],
-      "owner": "1"
-    }
-  ],
-  "messages": [
-    {
-      "id": "1732219470377",
-      "communityId": "1732219440610",
-      "content": "sklsdf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T20:04:30.377Z"
-    },
-    {
-      "id": "1732219471397",
-      "communityId": "1732219440610",
-      "content": "slkflskdf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T20:04:31.397Z"
-    },
-    {
-      "id": "1732219472458",
-      "communityId": "1732219440610",
-      "content": "sdfksf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T20:04:32.458Z"
-    },
-    {
-      "id": "1732219473524",
-      "communityId": "1732219440610",
-      "content": "sdjflsf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T20:04:33.524Z"
-    },
-    {
-      "id": "1732225297343",
-      "communityId": "1732219440610",
-      "content": "sfshfks",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:41:37.343Z"
-    },
-    {
-      "id": "1732225298895",
-      "communityId": "1732219440610",
-      "content": "skjslfsd",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:41:38.895Z"
-    },
-    {
-      "id": "1732225299964",
-      "communityId": "1732219440610",
-      "content": "sjfsdlf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:41:39.964Z"
-    },
-    {
-      "id": "1732225336842",
-      "communityId": "1732225328050",
-      "content": "New new ",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:42:16.842Z"
-    },
-    {
-      "id": "1732225337891",
-      "communityId": "1732225328050",
-      "content": "new ",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:42:17.891Z"
-    },
-    {
-      "id": "1732225340036",
-      "communityId": "1732225328050",
-      "content": "is ",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:42:20.036Z"
-    },
-    {
-      "id": "1732225343420",
-      "communityId": "1732225328050",
-      "content": "bnew",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-21T21:42:23.420Z"
-    },
-    {
-      "id": "1732361020971",
-      "communityId": "1732219440610",
-      "content": "sfkas",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-23T11:23:40.971Z"
-    },
-    {
-      "id": "1732361021810",
-      "communityId": "1732219440610",
-      "content": "slfjsdsf",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-23T11:23:41.810Z"
-    },
-    {
-      "id": "1732361040993",
-      "communityId": "1732361035683",
-      "content": "sfjsdlfs",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-23T11:24:00.993Z"
-    },
-    {
-      "id": "1732361044210",
-      "communityId": "1732361035683",
-      "content": "fslfjsd",
-      "userId": "1",
-      "user_name": "User",
-      "timestamp": "2024-11-23T11:24:04.210Z"
-    }
-  ],
+  "communities": [],
+  "messages": [],
   "topics": [
     {
       "id": "t1",
@@ -922,6 +565,22 @@
         "q1_1": "b",
         "q1_2": "a"
       }
+    },
+    {
+      "userId": "1732382016384",
+      "quizId": "q1",
+      "attemptNumber": 7,
+      "startedAt": "2024-11-29T04:45:30.054Z"
+    },
+    {
+      "userId": "1732382016384",
+      "quizId": "q1",
+      "score": 0,
+      "completedAt": "2024-11-29T04:45:35.685Z",
+      "answers": {
+        "q1_1": "b",
+        "q1_2": "a"
+      }
     }
   ],
   "creditData": [
@@ -1060,99 +719,27 @@
         "uploadedAt": "2024-11-28T19:04:46.400Z",
         "fileSize": 341224
       }
+    },
+    {
+      "id": "1732855327769",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "fileName": "mpesa.csv",
+      "fileSize": 341224,
+      "filePath": "/home/devcoder/projects/CreditBoost/api/uploads/file-1732855327749-563029384.csv",
+      "uploadedAt": "2024-11-29T04:42:07.769Z",
+      "status": "completed",
+      "processingStep": "complete",
+      "error": null,
+      "data": {
+        "fileName": "mpesa.csv",
+        "uploadedAt": "2024-11-29T04:42:07.769Z",
+        "fileSize": 341224
+      }
     }
   ],
   "mpesaTransactions": [],
   "chatHistories": [
-    {
-      "id": "1732826800072",
-      "userId": "1732382016384",
-      "source": "mpesa",
-      "title": "Chat 11/28/2024",
-      "uploadIds": [
-        "1732820686400"
-      ],
-      "messages": [
-        {
-          "id": 1,
-          "text": "Try find something legit ",
-          "sender": "user",
-          "timestamp": "2024-11-28T20:46:39.914Z"
-        },
-        {
-          "id": 2,
-          "text": "Analyzing 3635 transactions from 1 M-Pesa statements...",
-          "sender": "ai",
-          "timestamp": "2024-11-28T20:46:40.058Z"
-        }
-      ],
-      "createdAt": "2024-11-28T20:46:40.072Z",
-      "shareToken": "m9ipy6e4n1"
-    },
-    {
-      "id": "1732827338763",
-      "userId": "1732382016384",
-      "source": "mpesa",
-      "title": "Chat 11/28/2024",
-      "uploadIds": [
-        "1732820555381",
-        "1732820686400"
-      ],
-      "messages": [
-        {
-          "id": 1,
-          "text": "how;s today ",
-          "sender": "user",
-          "timestamp": "2024-11-28T20:55:38.416Z"
-        },
-        {
-          "id": 2,
-          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
-          "sender": "ai",
-          "timestamp": "2024-11-28T20:55:38.738Z"
-        }
-      ],
-      "createdAt": "2024-11-28T20:55:38.763Z",
-      "shareToken": "3f9fqwflxrk"
-    },
-    {
-      "id": "1732827346186",
-      "userId": "1732382016384",
-      "source": "mpesa",
-      "title": "Chat 11/28/2024",
-      "uploadIds": [
-        "1732820555381",
-        "1732820686400"
-      ],
-      "messages": [
-        {
-          "id": 1,
-          "text": "how;s today ",
-          "sender": "user",
-          "timestamp": "2024-11-28T20:55:38.416Z"
-        },
-        {
-          "id": 2,
-          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
-          "sender": "ai",
-          "timestamp": "2024-11-28T20:55:38.738Z"
-        },
-        {
-          "id": 3,
-          "text": "Is tehre a remedy ",
-          "sender": "user",
-          "timestamp": "2024-11-28T20:55:45.779Z"
-        },
-        {
-          "id": 4,
-          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
-          "sender": "ai",
-          "timestamp": "2024-11-28T20:55:46.166Z"
-        }
-      ],
-      "createdAt": "2024-11-28T20:55:46.186Z",
-      "shareToken": "0ivqulku7r0a"
-    },
     {
       "id": "1732827901555",
       "userId": "1732382016384",
@@ -1202,13 +789,13 @@
         }
       ],
       "createdAt": "2024-11-28T21:06:31.070Z",
-      "shareToken": "l4q02dz0olg"
+      "shareToken": "hld5x6yn9aw"
     },
     {
-      "id": "1732830422520",
+      "id": "1732831062784",
       "userId": "1732382016384",
       "source": "mpesa",
-      "title": "Chat 11/29/2024",
+      "title": "Game changer",
       "uploadIds": [
         "1732820686400",
         "1732820555381"
@@ -1216,45 +803,115 @@
       "messages": [
         {
           "id": 1,
-          "text": "What was the highest transaction this month ",
+          "text": "repirt",
           "sender": "user",
-          "timestamp": "2024-11-28T21:47:02.334Z"
+          "timestamp": "2024-11-28T21:57:42.488Z"
         },
         {
           "id": 2,
           "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
           "sender": "ai",
-          "timestamp": "2024-11-28T21:47:02.509Z"
+          "timestamp": "2024-11-28T21:57:42.767Z"
         }
       ],
-      "createdAt": "2024-11-28T21:47:02.520Z",
+      "createdAt": "2024-11-28T21:57:42.784Z",
+      "shareToken": "bv2kt8ktkaq"
+    },
+    {
+      "id": "1732831067655",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "Game changer",
+      "uploadIds": [
+        "1732820686400",
+        "1732820555381"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "repirt",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:57:42.488Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:57:42.767Z"
+        },
+        {
+          "id": 3,
+          "text": "why",
+          "sender": "user",
+          "timestamp": "2024-11-28T21:57:47.314Z"
+        },
+        {
+          "id": 4,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-28T21:57:47.637Z"
+        }
+      ],
+      "createdAt": "2024-11-28T21:57:47.655Z",
+      "shareToken": "egw9s9tjxb"
+    },
+    {
+      "id": "1732855456077",
+      "userId": "1732382016384",
+      "source": "mpesa",
+      "title": "check on expence ",
+      "uploadIds": [
+        "1732855327769",
+        "1732820686400"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "what was the highest spending ",
+          "sender": "user",
+          "timestamp": "2024-11-29T04:44:15.744Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-11-29T04:44:16.061Z"
+        }
+      ],
+      "createdAt": "2024-11-29T04:44:16.077Z",
       "shareToken": null
+    }
+  ],
+  "settings": [
+    {
+      "userId": "1733124179212",
+      "notifications": {
+        "emailUpdates": true,
+        "creditScoreChanges": true,
+        "newLearningContent": false,
+        "desktopNotifications": true,
+        "soundNotifications": false
+      }
     },
     {
-      "id": "1732830710412",
-      "userId": "1732382016384",
-      "source": "mpesa",
-      "title": "trial values",
-      "uploadIds": [
-        "1732820686400",
-        "1732820555381"
-      ],
-      "messages": [
-        {
-          "id": 1,
-          "text": "game of throne ",
-          "sender": "user",
-          "timestamp": "2024-11-28T21:51:50.092Z"
-        },
-        {
-          "id": 2,
-          "text": "Analyzing 7270 transactions from 2 M-Pesa statements...",
-          "sender": "ai",
-          "timestamp": "2024-11-28T21:51:50.398Z"
-        }
-      ],
-      "createdAt": "2024-11-28T21:51:50.412Z",
-      "shareToken": "ogg0ok3e6qd"
+      "userId": "1733125115779",
+      "notifications": {
+        "emailUpdates": true,
+        "creditScoreChanges": true,
+        "newLearningContent": false,
+        "desktopNotifications": true,
+        "soundNotifications": false
+      }
+    },
+    {
+      "userId": "1733125378787",
+      "notifications": {
+        "emailUpdates": true,
+        "creditScoreChanges": true,
+        "newLearningContent": false,
+        "desktopNotifications": true,
+        "soundNotifications": false
+      }
     }
   ]
 }

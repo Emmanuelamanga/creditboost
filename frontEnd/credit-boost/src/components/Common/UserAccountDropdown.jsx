@@ -46,7 +46,7 @@ const UserAccountDropdown = () => {
             <AvatarFallback>US</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="text-sm font-medium">{user?.name}</span>
+            <span className="text-sm font-medium">{user?.firstName}</span>
             <span className="text-xs text-muted-foreground">{user?.email}</span>
           </div>
         </div>

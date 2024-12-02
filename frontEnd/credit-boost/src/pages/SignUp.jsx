@@ -4,31 +4,44 @@ import { Link } from 'react-router-dom';
 import { authenticateWithGoogle } from '../api/socialAuth';
 import AuthLayout from './Layouts/AuthLayout';
 import { authService } from '@/services/auth.service';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { CheckCircle2 } from 'lucide-react';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
-        name: '', email: '', password: '', password2: ''
+        firstName: '',
+        lastName: '', 
+        email: '',
+        phone: '',
+        password: '',
+        password2: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
     const navigate = useNavigate();
 
     const handleSignUp = async (e) => {
-        console.log('hit');
-        
         e.preventDefault();
         if (formData.password !== formData.password2) {
             setError('Passwords do not match');
             return;
         }
         setIsSubmitting(true);
+        setError('');
         try {            
             await authService.register({
-                name: formData.name,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
                 email: formData.email,
+                phone: formData.phone,
                 password: formData.password
             });
-            navigate('/login');
+            setShowSuccess(true);
+            // Delay navigation to show success message
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
         } catch (err) {            
             setError('Registration failed. Please try again.');
         } finally {
@@ -41,6 +54,16 @@ const SignUp = () => {
             title="Create an account" 
             subtitle="Get started with CreditBoost"
         >
+            {showSuccess && (
+                <Alert className="mb-6 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800">
+                    <CheckCircle2 className="h-5 w-5" />
+                    <AlertTitle>Success!</AlertTitle>
+                    <AlertDescription>
+                        Account created successfully. Redirecting to login...
+                    </AlertDescription>
+                </Alert>
+            )}
+
             <button
                 onClick={authenticateWithGoogle}
                 className="w-full flex items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm hover:bg-gray-50 mb-6"
@@ -59,25 +82,41 @@ const SignUp = () => {
             </div>
 
             {error && (
-                <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                    {error}
-                </div>
+                <Alert variant="destructive" className="mb-4">
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                </Alert>
             )}
 
             <form onSubmit={handleSignUp} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Name
+                            First Name
                         </label>
                         <input
                             type="text"
                             required
-                            value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            value={formData.firstName}
+                            onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                             className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-800 dark:border-gray-700"
                         />
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Last Name
+                        </label>
+                        <input
+                            type="text"
+                            required
+                            value={formData.lastName}
+                            onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                            className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-800 dark:border-gray-700"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             Email
@@ -87,6 +126,17 @@ const SignUp = () => {
                             required
                             value={formData.email}
                             onChange={(e) => setFormData({...formData, email: e.target.value})}
+                            className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-800 dark:border-gray-700"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Phone Number
+                        </label>
+                        <input
+                            type="tel"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
                             className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:bg-gray-800 dark:border-gray-700"
                         />
                     </div>
