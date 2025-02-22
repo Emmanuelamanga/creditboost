@@ -31,6 +31,15 @@
       "createdAt": "2024-12-02T07:42:58.787Z",
       "updatedAt": "2024-12-02T07:46:21.839Z",
       "photoUrl": "/uploads/profiles/profile-1733125581834-252832169.jpg"
+    },
+    {
+      "id": "1733902566417",
+      "firstName": "Adipisicing est vero",
+      "lastName": "Assumenda dolor recu",
+      "email": "rotymy@mailinator.com",
+      "phone": "+1 (399) 779-9132",
+      "password": "$2b$10$gaJMcMXIv3VI9lhb4Oo0EujuAVUTRFSf.NQcmRDs2i7hd2EP3wQwO",
+      "createdAt": "2024-12-11T07:36:06.417Z"
     }
   ],
   "communities": [],
@@ -581,6 +590,22 @@
         "q1_1": "b",
         "q1_2": "a"
       }
+    },
+    {
+      "userId": "1733902566417",
+      "quizId": "q1",
+      "attemptNumber": 1,
+      "startedAt": "2024-12-11T07:39:22.546Z"
+    },
+    {
+      "userId": "1733902566417",
+      "quizId": "q1",
+      "score": 50,
+      "completedAt": "2024-12-11T07:39:29.743Z",
+      "answers": {
+        "q1_1": "a",
+        "q1_2": "a"
+      }
     }
   ],
   "creditData": [
@@ -736,6 +761,23 @@
         "uploadedAt": "2024-11-29T04:42:07.769Z",
         "fileSize": 341224
       }
+    },
+    {
+      "id": "1733902697583",
+      "userId": "1733902566417",
+      "source": "mpesa",
+      "fileName": "mpesa.csv",
+      "fileSize": 341224,
+      "filePath": "/home/devcoder/projects/CreditBoost/api/uploads/file-1733902697577-942822184.csv",
+      "uploadedAt": "2024-12-11T07:38:17.583Z",
+      "status": "completed",
+      "processingStep": "complete",
+      "error": null,
+      "data": {
+        "fileName": "mpesa.csv",
+        "uploadedAt": "2024-12-11T07:38:17.583Z",
+        "fileSize": 341224
+      }
     }
   ],
   "mpesaTransactions": [],
@@ -879,6 +921,31 @@
         }
       ],
       "createdAt": "2024-11-29T04:44:16.077Z",
+      "shareToken": null
+    },
+    {
+      "id": "1733902744049",
+      "userId": "1733902566417",
+      "source": "mpesa",
+      "title": "Chat 12/11/2024",
+      "uploadIds": [
+        "1733902697583"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "text": "sdfsdf",
+          "sender": "user",
+          "timestamp": "2024-12-11T07:39:03.970Z"
+        },
+        {
+          "id": 2,
+          "text": "Analyzing 3635 transactions from 1 M-Pesa statements...",
+          "sender": "ai",
+          "timestamp": "2024-12-11T07:39:04.042Z"
+        }
+      ],
+      "createdAt": "2024-12-11T07:39:04.049Z",
       "shareToken": null
     }
   ],
