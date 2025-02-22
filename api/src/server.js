@@ -31,6 +31,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_URL = 'https://gwxfvzlpnnvjtjwrtmii.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3eGZ2emxwbm52anRqd3J0bWlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyNTE5MjcsImV4cCI6MjA1NTgyNzkyN30.wJ1pG7MNCvU7x7brkmPG8G3FAl-b5VOp3TJgRKcPqxQ';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
 import {
   generateToken,
   hashPassword,
@@ -154,45 +162,51 @@ const db = {
   ],
 };
 // DB Helper Functions
-const readDB = async () => {
-  const data = await fs.readFile(
-    path.join(__dirname, "../db/db.json"),
-    "utf-8"
-  );
-  return JSON.parse(data);
+// const readDB = async () => {
+//   const data = await fs.readFile(
+//     path.join(__dirname, "../db/db.json"),
+//     "utf-8"
+//   );
+//   return JSON.parse(data);
+// };
+
+// const writeDB = async (data) => {
+//   await fs.writeFile(
+//     path.join(__dirname, "../db/db.json"),
+//     JSON.stringify(data, null, 2)
+//   );
+// };
+// Routes
+
+const readDB = async (table) => {
+  const { data, error } = await supabase.from(table).select("*");
+  if (error) throw error;
+  return data;
 };
 
-const writeDB = async (data) => {
-  await fs.writeFile(
-    path.join(__dirname, "../db/db.json"),
-    JSON.stringify(data, null, 2)
-  );
+const writeDB = async (table, newData) => {
+  const { data, error } = await supabase.from(table).insert([newData]);
+  if (error) throw error;
+  return data;
 };
-// Routes
 
 // User routes
 app.post("/api/auth/register", async (req, res) => {
   try {
-    console.log(req.body);
-
     const { firstName, lastName, email, phone, password } = req.body;
-
-    // Validation
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const db = await readDB();
-
-    // Check if email exists
-    if (db.users.some((u) => u.email === email)) {
+    const users = await readDB("users");
+    if (users.some((u) => u.email === email)) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
     const hashedPassword = await hashPassword(password);
 
     const newUser = {
-      id: String(Date.now()),
+      id: uuidv4(),
       firstName,
       lastName,
       email,
@@ -201,22 +215,16 @@ app.post("/api/auth/register", async (req, res) => {
       createdAt: new Date().toISOString(),
     };
 
-    db.users.push(newUser);
-    await writeDB(db);
+    await writeDB("users", newUser);
 
     const token = generateToken(newUser.id);
     res.status(201).json({
       token,
-      user: {
-        id: newUser.id,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        phone: newUser.phone,
-      },
+      user: { id: newUser.id, firstName, lastName, email, phone },
     });
   } catch (error) {
     console.log(error);
+    
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -224,28 +232,16 @@ app.post("/api/auth/register", async (req, res) => {
 app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const db = await readDB();
+    const users = await readDB("users");
 
-    const user = db.users.find((u) => u.email === email);
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    const user = users.find((u) => u.email === email);
+    if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
     const validPassword = await comparePassword(password, user.password);
-    if (!validPassword) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    if (!validPassword) return res.status(401).json({ error: "Invalid credentials" });
 
     const token = generateToken(user.id);
-    res.json({
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-      },
-    });
+    res.json({ token, user: { id: user.id, firstName: user.firstName, email: user.email, phone: user.phone } });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
